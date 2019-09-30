@@ -3,8 +3,8 @@
 This repository contains Excel VBA code that moves a block of selected cells up, down, left, and right ("tetris-style") when you hold down shift+alt+{arrow key}. 
 
 USAGE:
-1. Select Block of Cells
-2. Moves a block of selected cells up, down, left, and right ("tetris-style") when you hold down shift+alt+{arrow key}
+1. Select a block of cells
+2. Move the selected cells up, down, left, and right ("tetris-style") when you hold down shift+alt+{arrow key}
 
 SETUP:
 1. Open the VBA Editor (alt+F11)
