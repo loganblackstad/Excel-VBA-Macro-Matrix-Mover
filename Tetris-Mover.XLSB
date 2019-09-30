@@ -1,0 +1,16 @@
+'  Created By: Logan Blackstad, Jeef Talyor
+'  Created On: Sep 30, 2019
+'
+'  Place the OnKey subs in a separate module titled Workbook_Open(). They will take priority over the Change event
+'  Place this Sub in ThisWorkbook in your PERSONAL.XLSB file in your VBAProject file
+'
+
+Private Sub Workbook_Open()
+
+    Application.OnKey "+%{UP}", "Swap_Up"
+    Application.OnKey "+%{DOWN}", "Swap_Down"
+    Application.OnKey "+%{LEFT}", "Swap_Left"
+    Application.OnKey "+%{RIGHT}", "Swap_Right"
+    Application.OnKey "{F10}", "join_text"
+    
+End Sub
