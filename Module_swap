@@ -1,0 +1,125 @@
+Option Explicit
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Sub CreateShortcut()
+
+    Application.OnKey "+%{UP}", "Swap_Up"
+    Application.OnKey "+%{DOWN}", "Swap_Down"
+    Application.OnKey "+%{LEFT}", "Swap_Left"
+    Application.OnKey "+%{RIGHT}", "Swap_Right"
+
+End Sub
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Sub Swap_Up()
+
+If Selection.Cells(1).Row = 1 Then
+    Exit Sub
+End If
+
+Dim AboveRow As Range
+Set AboveRow = Selection.Rows(1).Offset(-1, 0)
+
+Dim rshift As Integer, cshift As Integer
+rshift = -1
+cshift = 0
+
+Dim startRange As String
+startRange = Selection.Cells.Offset(-1, 0).Address
+
+SwapRanges Selection, AboveRow, rshift, cshift
+
+Range(startRange).Select
+
+End Sub
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Sub Swap_Down()
+
+Dim BelowRow As Range
+Dim c1 As Integer, r1 As Integer
+
+Dim rshift As Integer, cshift As Integer
+rshift = 1
+cshift = 0
+
+c1 = Selection.Columns.Count
+r1 = Selection.Rows.Count
+
+Set BelowRow = Selection.Rows(r1).Offset(1, 0)
+
+Dim startRange As String
+startRange = Selection.Cells.Offset(1, 0).Address
+
+SwapRanges Selection, BelowRow, rshift, cshift
+
+Range(startRange).Select
+
+End Sub
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Sub Swap_Left()
+
+If Selection.Cells(1).Column = 1 Then
+    Exit Sub
+End If
+
+Dim LeftCol As Range
+Dim c1 As Integer, r1 As Integer
+
+Dim rshift As Integer, cshift As Integer
+rshift = 0
+cshift = -1
+
+c1 = Selection.Columns.Count
+r1 = Selection.Rows.Count
+
+Set LeftCol = Selection.Columns(1).Offset(0, -1)
+
+Dim startRange As String
+startRange = Selection.Cells.Offset(0, -1).Address
+
+SwapRanges Selection, LeftCol, rshift, cshift
+
+Range(startRange).Select
+
+End Sub
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Sub Swap_Right()
+
+Dim RightCol As Range
+Dim c1 As Integer, r1 As Integer
+
+Dim rshift As Integer, cshift As Integer
+rshift = 0
+cshift = 1
+
+c1 = Selection.Columns.Count
+r1 = Selection.Rows.Count
+
+Set RightCol = Selection.Columns(c1).Offset(0, 1)
+
+Dim startRange As String
+startRange = Selection.Cells.Offset(0, 1).Address
+
+SwapRanges Selection, RightCol, rshift, cshift
+
+Range(startRange).Select
+
+End Sub
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Sub SwapRanges(rg1 As Range, rg2 As Range, rshift As Integer, cshift As Integer)
+
+    Const SwapRC = 1000 ' unused cells to temporaily house the data. (row 1000, col 1000)
+    Dim rgLimbo As Variant
+    
+    Set rgLimbo = Range(Cells(SwapRC, SwapRC), Cells(SwapRC + rg1.Rows.Count - 1, SwapRC + rg1.Columns.Count - 1))
+    rg1.Copy rgLimbo       'copy rg1 to limbo
+    rg2.Copy rg1           'copy rg2 to rg1
+    rgLimbo.Copy rg1.Cells(1 + rshift, 1 + cshift)  'copy limbo to rg1
+    rgLimbo.ClearContents  'clear limbo
+    
+End Sub
